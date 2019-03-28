@@ -1,11 +1,7 @@
-index:
-    path: /index
-    controller: App\Controller\DefaultController::index
-
 publish:
     path: /publish
-    controller: App\Controller\DefaultController::publish
+    controller: App\Controller\ProductController::publish
 
-consume:
-    path: /consume
-    controller: App\Controller\DefaultController::consume
+save:
+    path: /save
+    controller: App\Controller\ProductController::save

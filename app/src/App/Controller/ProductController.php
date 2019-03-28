@@ -4,8 +4,9 @@ namespace App\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
-
-class DefaultController {
+use App\Entity\Product;
+use App\Repository\ProductRepository;
+class ProductController {
 
     public function index()
     {
@@ -42,23 +43,15 @@ class DefaultController {
         return new JsonResponse($response, 200);
     }
 
-    public function consume()
+    public function save()
     {
-        $connection = new AMQPStreamConnection('container_rabbit', 5672, 'guest', 'guest');
-        $channel = $connection->channel();
+        $product = new Product();
+        $product->setName('Calça jeans');
+        $product->setSku('64581234');
+        $product->setColor('Azul');
+        $product->setSize(38);
 
-        $channel->queue_declare('products', false, false, false, false);
-
-        $callback = function ($msg) {
-            echo ' [x] Received ', $msg->body, "\n";
-        };
-
-        $channel->basic_consume('products', '', false, true, false, false, $callback);
-
-        while(count($channel->callbacks)) {
-            $channel->wait();
-        }
-
+        $productRepository = (new ProductRepository())->save($product);
+        return new JsonResponse($productRepository,200);
     }
-
 }

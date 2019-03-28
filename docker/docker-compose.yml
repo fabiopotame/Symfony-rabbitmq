@@ -32,18 +32,19 @@ services:
             - ../logs/nginx:/var/log/nginx
         links:
             - rabbit
-#    mysql:
-#        container_name: container_mysql
-#        image: mysql
-#        volumes:
-#            - "./.data/mysql:/var/lib/mysql"
-#        environment:
-#            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-#            MYSQL_DATABASE: ${MYSQL_DATABASE}
-#            MYSQL_USER: ${MYSQL_USER}
-#            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-#        ports:
-#            - "3306:3306"
+            - mysql
+    mysql:
+        container_name: container_mysql
+        image: mysql
+        volumes:
+            - "./.data/mysql:/var/lib/mysql"
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: rabbitmq
+            MYSQL_USER: root
+            MYSQL_PASSWORD: root
+        ports:
+            - "3306:3306"
     rabbit:
         container_name: container_rabbit
         hostname: rabbit
